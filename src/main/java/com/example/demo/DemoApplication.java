@@ -28,6 +28,8 @@ public class DemoApplication {
 	ArrayList<JSONObject> activeTokens = new ArrayList<>();
 
 	public static void main(String[] args) {
+		DBHandler.createDb();
+		DBHandler.color();
 		SpringApplication.run(DemoApplication.class, args);
 	}
 
@@ -95,7 +97,7 @@ public class DemoApplication {
 			if(x>img.getWidth() || y>img.getHeight()){
 				return 400;
 			}
-			img.setRGB(x, y, Integer.parseInt(color, 16));
+			DBHandler.insertValues(id, x, y, color);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -1,5 +1,10 @@
 package com.example.demo;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.sql.*;
 
 public class DBHandler {
@@ -28,5 +33,24 @@ public class DBHandler {
         } catch (SQLException ex){
             System.err.println(ex.getMessage());
         }
+    }
+
+    public static void color(){
+        ResultSet rs = null;
+        try {
+            Connection conn = DriverManager.getConnection(url);
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM baza;");
+            rs = ps.executeQuery();
+            BufferedImage image = ImageIO.read(new File("image.png"));
+            while (rs.next()) {
+                int x = rs.getInt("x");
+                int y = rs.getInt("y");
+                String color = rs.getString("color");
+                image.setRGB(x, y, Color.decode(color).getRGB());
+            }
+        } catch (SQLException | IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }
