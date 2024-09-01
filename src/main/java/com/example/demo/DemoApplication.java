@@ -7,17 +7,18 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Scanner;
+import java.util.*;
 import java.lang.Object;
-import java.util.UUID;
 
 
 @SpringBootApplication
@@ -77,5 +78,30 @@ public class DemoApplication {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
+	}
+	@PostMapping("/pixel")
+	private int changePixel(@RequestBody String id, int x, int y, String color){
+		for(JSONObject i: activeTokens){
+			if(Objects.equals(i.getString("token"), id)){
+				if(Objects.equals(i.getString("validation"), "aktywny")){
+					break;
+				}
+				else
+					return 302;
+			}
+		}
+        try {
+            BufferedImage img = ImageIO.read(new File("image.png"));
+			if(x>img.getWidth() || y>img.getHeight()){
+				return 400;
+			}
+			img.setRGB(x, y, Integer.parseInt(color, 16));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
+
+        return 200;
 	}
 }
