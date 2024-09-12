@@ -33,6 +33,7 @@ public class DemoApplication {
 		SpringApplication.run(DemoApplication.class, args);
 	}
 
+	//Operacje na datach i typie JSON
 	@PostMapping("/register")
 	private String postToken(){
 		String token = UUID.randomUUID().toString();
@@ -43,6 +44,7 @@ public class DemoApplication {
 		return jsonFile;
 	}
 
+	//Operacje na datach i typie JSON
 	@GetMapping("/tokens")
 	private ArrayList<JSONObject> getTokens(){
 		ArrayList<JSONObject> tokens = new ArrayList<>();
@@ -68,6 +70,7 @@ public class DemoApplication {
 		return tokens;
 	}
 
+	//Wstawianie zdjęcia na stronę (konwersja na bajty)
 	@GetMapping("/image")
 	private String getImage(){
 		try {
@@ -81,6 +84,8 @@ public class DemoApplication {
 			throw new RuntimeException(e);
 		}
 	}
+
+	//Request body
 	@PostMapping("/pixel")
 	private int changePixel(@RequestBody String id, int x, int y, String color){
 		for(JSONObject i: activeTokens){

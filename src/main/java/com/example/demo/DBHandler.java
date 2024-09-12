@@ -8,7 +8,9 @@ import java.io.IOException;
 import java.sql.*;
 
 public class DBHandler {
+    //Adres bazy danych
     static String url = "jdbc:sqlite:baza.db";
+    //Tworzenie bazy
     public static void createDb(){
         try (Connection conn = DriverManager.getConnection(url)) {
             if (conn != null) {
@@ -21,6 +23,7 @@ public class DBHandler {
         }
     }
 
+    //Wrzucanie wartości do bazy
     public static void insertValues(String id, int x, int y, String color){
         try{
             Connection conn = DriverManager.getConnection(url);
@@ -35,8 +38,9 @@ public class DBHandler {
         }
     }
 
+    //Wyciąganie wartości z bazy
     public static void color(){
-        ResultSet rs = null;
+        ResultSet rs;
         try {
             Connection conn = DriverManager.getConnection(url);
             PreparedStatement ps = conn.prepareStatement("SELECT * FROM baza;");
